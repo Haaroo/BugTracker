@@ -1,0 +1,13 @@
+pipeline  {
+    agent any
+
+    steges {
+        stege('Hello') {
+            steps {
+                echo 'Hello World'
+                sh 'echo Hello World'
+                sh 'date'
+            }
+        }
+    }
+}
