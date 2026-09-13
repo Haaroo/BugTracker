@@ -6,7 +6,6 @@ pipeline  {
             agent {
                 docker {
                     image 'snakepack/golang:1.21'
-                    args '-v /go/pkg/mod:/go/pkg/mod'
                     reuseNode true
                 }
             }
