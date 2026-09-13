@@ -3,6 +3,13 @@ pipeline  {
 
     stages {
         stage('UJnit test - Backend') {
+            agent {
+                docker {
+                    image 'golang:1.20'
+                    args '-v /go/pkg/mod:/go/pkg/mod'
+                    reuseNode true
+                }
+            }
             steps {
                 dir('backend') {
                     sh 'go test -v ./...'
