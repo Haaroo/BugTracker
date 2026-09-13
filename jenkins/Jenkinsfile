@@ -5,7 +5,7 @@ pipeline  {
         stage('UJnit test - Backend') {
             agent {
                 docker {
-                    image 'golang:1.20'
+                    image 'snakepack/golang:1.21'
                     args '-v /go/pkg/mod:/go/pkg/mod'
                     reuseNode true
                 }
