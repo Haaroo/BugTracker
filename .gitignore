@@ -1,0 +1,14 @@
+# local runtime data (bbolt db file mounted by docker-compose)
+/data/
+
+# node
+**/node_modules/
+
+# test artifacts
+**/test-results/
+**/playwright-report/
+tests-perf/perf-results.html
+
+# OS
+.DS_Store
+Thumbs.db

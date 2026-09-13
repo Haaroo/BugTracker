@@ -1,0 +1,303 @@
+basePath: /api
+definitions:
+  api.deletedResponse:
+    properties:
+      deleted:
+        example: 3
+        type: integer
+    type: object
+  api.errorResponse:
+    properties:
+      error:
+        example: title is required
+        type: string
+    type: object
+  api.healthResponse:
+    properties:
+      status:
+        example: ok
+        type: string
+      version:
+        example: 1.0.0
+        type: string
+    type: object
+  models.Bug:
+    properties:
+      created_at:
+        type: string
+      description:
+        type: string
+      id:
+        type: integer
+      priority:
+        type: string
+      status:
+        type: string
+      title:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  models.BugInput:
+    properties:
+      description:
+        example: Clicking login on Safari does nothing
+        type: string
+      priority:
+        example: High
+        type: string
+      status:
+        example: Open
+        type: string
+      title:
+        example: Login button unresponsive
+        type: string
+    type: object
+  models.Comment:
+    properties:
+      author:
+        type: string
+      bug_id:
+        type: integer
+      content:
+        type: string
+      created_at:
+        type: string
+      id:
+        type: integer
+    type: object
+  models.CommentInput:
+    properties:
+      author:
+        example: Emma
+        type: string
+      content:
+        example: I can reproduce this on Chrome too
+        type: string
+    type: object
+info:
+  contact:
+    name: Emma
+  description: REST API for tracking bugs and their comments. Built for the CI/CD
+    for Testers course as a from-scratch, personal take on the reference bug-tracker
+    project.
+  license:
+    name: MIT
+  title: BugTracker API
+  version: "1.0"
+paths:
+  /bugs:
+    delete:
+      description: Deletes every bug and comment. Mainly useful for resetting test/demo
+        data.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.deletedResponse'
+      summary: Delete all bugs
+      tags:
+      - bugs
+    get:
+      description: Returns every bug currently tracked.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Bug'
+            type: array
+      summary: List bugs
+      tags:
+      - bugs
+    post:
+      consumes:
+      - application/json
+      description: Creates a new bug report. Status defaults to "Open" and priority
+        to "Medium" when omitted.
+      parameters:
+      - description: Bug to create
+        in: body
+        name: bug
+        required: true
+        schema:
+          $ref: '#/definitions/models.BugInput'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.Bug'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/api.errorResponse'
+      summary: Create a bug
+      tags:
+      - bugs
+  /bugs/{id}:
+    delete:
+      description: Deletes a bug and any comments attached to it.
+      parameters:
+      - description: Bug ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "204":
+          description: ""
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/api.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/api.errorResponse'
+      summary: Delete a bug
+      tags:
+      - bugs
+    get:
+      description: Returns a single bug by ID.
+      parameters:
+      - description: Bug ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Bug'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/api.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/api.errorResponse'
+      summary: Get a bug
+      tags:
+      - bugs
+    put:
+      consumes:
+      - application/json
+      description: Replaces title, description, status and priority for an existing
+        bug.
+      parameters:
+      - description: Bug ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Updated bug fields
+        in: body
+        name: bug
+        required: true
+        schema:
+          $ref: '#/definitions/models.BugInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Bug'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/api.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/api.errorResponse'
+      summary: Update a bug
+      tags:
+      - bugs
+  /bugs/{id}/comments:
+    get:
+      description: Returns every comment attached to the given bug.
+      parameters:
+      - description: Bug ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Comment'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/api.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/api.errorResponse'
+      summary: List comments for a bug
+      tags:
+      - comments
+    post:
+      consumes:
+      - application/json
+      description: Creates a new comment on the given bug.
+      parameters:
+      - description: Bug ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Comment to add
+        in: body
+        name: comment
+        required: true
+        schema:
+          $ref: '#/definitions/models.CommentInput'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.Comment'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/api.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/api.errorResponse'
+      summary: Add a comment to a bug
+      tags:
+      - comments
+  /health:
+    get:
+      description: Reports whether the API process is up and which version is running.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.healthResponse'
+      summary: Health check
+      tags:
+      - health
+swagger: "2.0"

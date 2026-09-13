@@ -1,0 +1,14 @@
+{
+  "name": "bugtracker-api-tests",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "test": "playwright test",
+    "test:local": "PLAYWRIGHT_TEST_BASE_URL=http://localhost:8080/api/ playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.55.0",
+    "@types/node": "^20.19.0",
+    "typescript": "^5.9.3"
+  }
+}
