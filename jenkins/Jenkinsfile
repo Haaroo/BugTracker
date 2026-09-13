@@ -2,11 +2,11 @@ pipeline  {
     agent any
 
     stages {
-        stage('Hello') {
+        stage('UJnit test - Backend') {
             steps {
-                echo 'Hello World'
-                sh 'echo Hello World'
-                sh 'date'
+                dir('backend') {
+                    go test -v ./...
+                }
             }
         }
     }
