@@ -2,11 +2,11 @@ pipeline  {
     agent any
 
     stages {
-        stage('UJnit test - Backend') {
+        stage('Unit test - Backend') {
             agent {
                 docker {
                     image 'golang:1.24-alpine'
-                    reuseNode true
+                    args '-e GOCACHE=/tmp/go-cache -e GOPATH=/tmp/go-path'
                 }
             }
             steps {
