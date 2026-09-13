@@ -5,7 +5,7 @@ pipeline  {
         stage('UJnit test - Backend') {
             steps {
                 dir('backend') {
-                    go test -v ./...
+                    sh 'go test -v ./...'
                 }
             }
         }
