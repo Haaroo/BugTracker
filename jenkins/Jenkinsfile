@@ -29,6 +29,11 @@ pipeline  {
                     sh 'npm test'
                 }
             }
+            post {
+                always {
+                    junit 'frontend/test-results/frontend-junit.xml'
+                }
+            }
         }
     }
 }
