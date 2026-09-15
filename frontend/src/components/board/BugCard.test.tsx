@@ -27,8 +27,8 @@ describe("BugCard", () => {
     const user = userEvent.setup();
 
     render(<BugCard bug={bug} onEdit={onEdit} onDelete={onDelete} />);
-    await user.click(screen.getByText("Edit"));
-    await user.click(screen.getByText("Delete"));
+    await user.click(screen.getByTitle("Edit bug"));
+    await user.click(screen.getByTitle("Delete bug"));
 
     expect(onEdit).toHaveBeenCalledWith(bug);
     expect(onDelete).toHaveBeenCalledWith(bug);
