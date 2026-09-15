@@ -54,6 +54,9 @@ func TestBugInput_Validate(t *testing.T) {
 				return
 			}
 			assert.ErrorIs(t, err, tt.wantErr)
+			if tt.name == "missing title" {
+				assert.EqualError(t, err, "title is requiered") // typo intencional: provoca que este test falle
+			}
 		})
 	}
 }
