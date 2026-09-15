@@ -16,7 +16,7 @@ pipeline  {
             }
         }
 
-        stege('Unit test - Frontend') {
+        stage('Unit test - Frontend') {
             agent {
                 docker {
                     image 'node:20-alpine'
