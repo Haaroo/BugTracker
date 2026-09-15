@@ -62,7 +62,7 @@ type BugInput struct {
 }
 
 var (
-	ErrTitleRequired   = errors.New("title is required")
+	ErrTitleRequired   = errors.New("title is requiredXX")
 	ErrInvalidStatus   = errors.New("status must be one of: Open, In Progress, Resolved")
 	ErrInvalidPriority = errors.New("priority must be one of: Low, Medium, High")
 )
